@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja Tatuagem - Projetos</title>
+  </head>
+  <body>
+    <h1>Projetos</h1>
+    <p><a href="/principal">Voltar</a></p>
+
+    <table border="1">
+      <tr>
+        <th>Cliente</th>
+        <th>Região</th>
+        <th>Estilo</th>
+        <th></th>
+      </tr>
+      {{#projetos}}
+      <tr>
+        <td>{{cliente_nome}}</td>
+        <td>{{regiao}}</td>
+        <td>{{estilo}}</td>
+        <td>
+          <a href="/projetos?editar={{id}}">Editar</a>
+          <form method="POST" action="/projetos/{{id}}">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button>Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {{/projetos}}
+    </table>
+
+    <h2>
+      {{#editando}} Editar {{/editando}}{{^editando}} Cadastrar {{/editando}}
+      projeto
+    </h2>
+
+    <form method="POST" action="{{acao}}">
+      {{#editando}}<input type="hidden" name="_method" value="PUT" />
+      {{/editando}}
+
+      <select name="cliente_id" required>
+        <option value="">Selecione o cliente...</option>
+        {{#clientes}}
+        <option value="{{id}}" {{selecionado}}>{{nome}}</option>
+        {{/clientes}}
+      </select>
+
+      <input
+        type="text"
+        name="regiao"
+        placeholder="Região"
+        value="{{form.regiao}}"
+        required
+      />
+      <input
+        type="text"
+        name="estilo"
+        placeholder="Estilo"
+        value="{{form.estilo}}"
+        required
+      />
+      <button>
+        {{#editando}} Salvar {{/editando}} {{^editando}} Cadastrar {{/editando}}
+      </button>
+    </form>
+    <p>{{erro}}</p>
+  </body>
+</html>
